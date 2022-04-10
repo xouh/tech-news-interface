@@ -9,9 +9,9 @@ const cors = require('koa2-cors')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
-const labels = require('./routes/imooc/label')
-const usersapi = require('./routes/imooc/user')
-const article = require('./routes/imooc/article')
+const labels = require('./routes/api/label')
+const usersapi = require('./routes/api/user')
+const article = require('./routes/api/article')
 
 const mongoose = require('mongoose')
 const dbConfig = require('./dbs/config')

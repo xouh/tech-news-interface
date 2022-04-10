@@ -1,5 +1,12 @@
 const { Schema, model } = require('mongoose');
 
+const userCSchmma = new Schema({
+  author_id: Schema.Types.ObjectId,
+  author_name: String,
+  avatar: { type: String, default: "https://avatars.githubusercontent.com/u/70921216" },
+  professional: { type: String, default: "外星人" }
+})
+
 let articleSchema = new Schema({
   id: String,
   title: String,
@@ -12,7 +19,15 @@ let articleSchema = new Schema({
   create_time: String,
   content: String,
   cover: [String],
-  mode: String
+  mode: String,
+  comments: [{
+    comment_id: String,
+    comment_content: String,
+    is_reply: Boolean,
+    comment_create_time: { type: Date, default: Date.now },
+    author: userCSchmma,
+    replys: []
+  }]
 })
 
 module.exports = model('Article', articleSchema, 'article')

@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 
 const Label = require('../../model/label'),
   User = require('../../model/user');
-const { $where } = require('../../model/user');
+
 
 router.prefix('/api')
 
