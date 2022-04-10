@@ -5,11 +5,16 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const cors = require('koa2-cors')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const labels = require('./routes/imooc/label')
+const usersapi = require('./routes/imooc/user')
+const article = require('./routes/imooc/article')
 
 const mongoose = require('mongoose')
+const dbConfig = require('./dbs/config')
 
 // connect db
 mongoose.connect(dbConfig.dbs, {
@@ -20,9 +25,19 @@ mongoose.connect(dbConfig.dbs, {
 // error handler
 onerror(app)
 
+// 允许跨域
+app.use(
+  cors({
+    credentials: true,
+    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
+    allowMethods: ['GET', 'POST', 'DELETE'],
+    allowHeaders: ['Content-Type', 'Authorization', 'Accept']
+  })
+)
+
 // middlewares
 app.use(bodyparser({
-  enableTypes:['json', 'form', 'text']
+  enableTypes: ['json', 'form', 'text']
 }))
 app.use(json())
 app.use(logger())
@@ -43,6 +58,9 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+app.use(labels.routes(), labels.allowedMethods())
+app.use(usersapi.routes(), usersapi.allowedMethods())
+app.use(article.routes(), article.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

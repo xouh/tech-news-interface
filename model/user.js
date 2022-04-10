@@ -14,7 +14,12 @@ let userSchema = new Schema({
   article_likes_ids: Array,
   author_likes_ids: Array,
   thumbs_up_article_ids: Array,
-  article_ids: Array
+  article_ids: Array,
+  label_ids: Array
 })
+
+// let turboUserSchema = new Schema();
+
+// turboUserSchema.add(userSchema).add({ label_ids: Array })
 
 module.exports = model('User', userSchema, 'user')
