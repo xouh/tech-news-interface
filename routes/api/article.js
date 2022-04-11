@@ -181,15 +181,24 @@ router.post('/updateComment', async function (ctx, next) {
   await next()
 })
 
-// router.get('/getComments', async function (ctx, next) {
-//   const articleID = ctx.request.body.articleID || "",
-//     result = null
 
-//   result = await Label.find({ articleID })
-//   ctx.body = {
-//     code: 200,
-//     result: result.comments
-//   }
-// })
+// 获得我的文章
+router.post('/getMyArticles', async function (ctx, next) {
 
+  const { user_id } = ctx.request.body
+
+  const { article_ids } = await User.findById(user_id)
+  console.log(article_ids)
+
+  const data = await Article.where('id').in(article_ids).select('-content -comments')
+
+  console.log(data);
+  ctx.body = {
+    code: 200,
+    msg: "数据获取成功",
+    data
+  }
+
+  await next()
+})
 module.exports = router

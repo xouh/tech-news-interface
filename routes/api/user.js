@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const User = require('../../model/user');
 const Article = require('../../model/article');
+const Feedback = require('../../model/feedback');
 
 
 // 测试用数据
@@ -57,7 +58,7 @@ router.post('/getAuthors', async function (ctx, next) {
 })
 
 // 获取关注文章列表
-router.post('/getFollows', async function (ctx, next){
+router.post('/getFollows', async function (ctx, next) {
   let { user_id } = ctx?.request?.body;
 
   const { article_likes_ids } = await User.findById(user_id);
@@ -195,6 +196,24 @@ router.post('/updateAuthor', async function (ctx, next) {
     msg: "数据更新成功"
   }
   await next()
+});
+
+router.post('/updateFeedback', async function (ctx, next) {
+  // const {user_id, content} = ctx.request.body;
+
+  const content = "test feedback";
+
+  const feedback = new Feedback({ user_id, content })
+
+  await feedback.save()
+
+  ctx.body = {
+    code: 200,
+    msg: "反馈提交成功",
+  }
+  await next()
+
+
 })
 module.exports = router
 

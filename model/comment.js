@@ -13,7 +13,7 @@ const commentSchema = new Schema({
   comment_id: String,
   comment_content: String,
   is_reply: Boolean,
-  comment_create_time: { type: Date, default: Date.now },
+  comment_create_time: { type: Number },
   author: userCSchmea,
   replys: [new Schema(this)],
   to: { type: String, default: "" }
